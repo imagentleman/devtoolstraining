@@ -1,0 +1,38 @@
+<svelte:head>
+	<title>Devtools Training</title>
+</svelte:head>
+
+<Nav articles={articles}/>
+
+<main class="content">
+	<OpenDevtools id="opendevtools"/>
+</main>
+
+<script>
+	import localForage from "localforage";
+
+	export default {
+		components: {
+			Nav: '../components/Nav.html',
+			OpenDevtools: '../components/OpenDevtools.html',
+		},
+
+		preload({ params, query }) {
+			return this.fetch(`/articles.json`).then(r => r.json()).then(articles => {
+				return { articles };
+			});
+		},
+
+		oncreate() {
+			const _this = this;
+
+			localForage.getItem('done', function (err, value) {
+				if (value) {
+					_this.store.set({
+						done: value
+					});
+				}
+			});
+		}
+	};
+</script>

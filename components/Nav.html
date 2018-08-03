@@ -1,0 +1,108 @@
+<nav class="nav-container">
+	<div class="nav">
+		{#each articles as article, index}
+		<a 
+			class="nav__link {$done[article.id] ? 'nav__link--done' : ''} {$activeLink === index ? 'nav__link--active' : ''}" 
+			href="#article-{index}"
+			on:click="setActive(index)">
+			<span class="nav__link-ordinal">{padNumber(index + 1)}.</span>
+			<span class="nav__link-name">{article.title}</span>
+		</a>
+		{/each}
+		<a class="nav__link nav__link--active" href="#a">
+			<span class="nav__link-ordinal">02.</span>
+			<span class="nav__link-name">Inspect huge.com</span>
+		</a>
+		<a class="nav__link" href="#b">
+			<span class="nav__link-ordinal">03.</span>
+			<span class="nav__link-name">Box Model</span>
+		</a>
+		<a class="nav__link" href="#c">
+			<span class="nav__link-ordinal">04.</span>
+			<span class="nav__link-name">Local Overrides</span>
+		</a>
+		<a class="nav__link" href="#d">
+			<span class="nav__link-ordinal">05.</span>
+			<span class="nav__link-name">Accessibility</span>
+		</a>
+	</div>
+</nav>
+
+<style>
+	.nav-container {
+		display: flex;
+		flex-direction: column;
+		margin-left: 3.09%;
+		max-height: 61.8vh;
+		overflow: auto;
+		position: fixed;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.nav {
+		padding-right: 1.618em;
+	}
+
+	.nav__link {
+		color: white;
+		display: flex;
+		font-family: "Huge", sans-serif;
+		max-width: 13vw;
+		line-height: 2;
+		text-decoration: none;
+	}
+
+	.nav__link-ordinal {
+		display: inline-flex;
+		margin-right: 0.618em;
+	}
+
+	.nav__link-ordinal::before {
+		background: white;
+		border-radius: 50%;
+		content: "";
+		height: 10px;
+		margin: calc(1em - 7px) 0.618em 0;
+		opacity: 0.5;
+		transition: transform 0.2s, opacity 0.2s;
+		width: 10px;
+	}
+
+	.nav__link.nav__link--done .nav__link-ordinal::before {
+		background: #EA178C;
+		opacity: 1;
+	}
+
+	.nav__link--active .nav__link-ordinal::before,
+	.nav__link-ordinal:hover::before {
+		opacity: 1;
+		transform: scale(0.5);
+	}
+
+	.nav__link-ordinal::after {
+		background: white;
+		content: "";
+		height: 1px;
+		margin: calc(1em - 2px) 0.618em 0;
+		width: 3em;
+	}
+</style>
+
+<script>
+	import { padNumber } from './_utils.js';
+
+	export default {
+		helpers: {
+			padNumber
+		},
+
+		methods: {
+			setActive(index) {
+				this.store.set({
+					activeLink: index
+				});
+			}
+		}
+	};
+</script>
