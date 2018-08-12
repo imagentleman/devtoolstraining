@@ -1,0 +1,45 @@
+<article class="article">
+  <div class="article__content">
+    <h1>Console: Open Panel</h1>
+
+    <p>
+      With the console panel of devtools you can do two main functions: 
+      1. view diagnostics (e.g. error msgs logged by the developer or by the browser) and 
+      2. run javascript (arbitrary code or related to the page's
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM</a>.
+    </p>
+
+    <p>Try cmd + alt/option + i (or j, or c) to open it.</p>
+    <p>More info: <a href="https://developers.google.com/web/tools/chrome-devtools/shortcuts">Keyboard Shortcuts Reference</a>.</p>
+  </div>
+
+  <div class="article__media">
+    <video src="videos/console/openpanel.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<svelte:window on:keydown="checkHotkey(event)" />
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    methods: {
+      checkHotkey(e) {
+        const { id } = this.get();
+
+        if (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) {
+          const done = this.store.get().done;
+
+          done[id] = true;
+
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

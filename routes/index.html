@@ -5,7 +5,7 @@
 <Nav articles={articles}/>
 
 <main class="content">
-	<OpenDevtools id="opendevtools"/>
+	<ConsoleOpenPanel id="consoleopenpanel"/>
 </main>
 
 <script>
@@ -14,7 +14,7 @@
 	export default {
 		components: {
 			Nav: '../components/Nav.html',
-			OpenDevtools: '../components/OpenDevtools.html',
+			ConsoleOpenPanel: '../components/console/OpenPanel.html',
 		},
 
 		preload({ params, query }) {

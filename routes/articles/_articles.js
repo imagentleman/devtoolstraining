@@ -1,7 +1,7 @@
 export const articles = [
   {
-    id: "opendevtools",
-    title: "Open Devtools",
-    component: "OpenDevtools"
+    id: "consoleopenpanel",
+    title: "Console: Open Panel",
+    component: "ConsoleOpenPanel"
   }
 ];
