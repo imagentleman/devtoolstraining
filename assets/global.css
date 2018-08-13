@@ -73,6 +73,7 @@ h1::after {
 	width: 100px;
 }
 
+input,
 p {
 	font-family: "Copernicus", serif;
 	font-size: 1.125rem;
@@ -81,7 +82,13 @@ p {
 	margin: 0;
 }
 
-p + p {
+input {
+	padding: 0.618em;
+}
+
+p + p,
+p + input,
+input + p {
 	margin-top: 0.618em;
 }
 
@@ -102,4 +109,13 @@ video {
 
 .article__media {
 	width: 60%
+}
+
+.checkmark {
+	display: none;
+	fill: greenyellow;
+}
+
+.checkmark--visible {
+	display: inline;
 }

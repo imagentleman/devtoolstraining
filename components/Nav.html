@@ -2,8 +2,8 @@
 	<div class="nav">
 		{#each articles as article, index}
 		<a 
-			class="nav__link {$done[article.id] ? 'nav__link--done' : ''} {$activeLink === index ? 'nav__link--active' : ''}" 
-			href="#article-{index}"
+			class="nav__link {$done[article.id] && $done[article.id].finished ? 'nav__link--done' : ''} {$activeLink === index ? 'nav__link--active' : ''}" 
+			href="#{article.id}"
 			on:click="setActive(index)">
 			<span class="nav__link-ordinal">{padNumber(index + 1)}.</span>
 			<span class="nav__link-name">{article.title}</span>

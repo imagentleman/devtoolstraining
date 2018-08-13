@@ -1,0 +1,92 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Browser Errors</h1>
+
+    <p>
+      There are two types of messages logged in the Console Panel:
+    </p>
+
+    <p>
+      1. Errors & warnings on the page caught by the Browser.
+    </p>
+    <p>
+      2. Errors, warnings & information explictly printed by the developer.
+    </p>
+
+    <p>Both are visible on the Console Panel and can be traced back to the original source file that caused the issue.</p>
+
+    <p>Open this <a href="/examples/console/browser-error" target="_blank">page</a>.</p>
+
+    <p>What is the 4-letter acronym of the security issue printed on the console by Chrome?</p>
+
+    <input type="text" placeholder="Acronym" bind:value="acronym" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].acronym ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>What is the name of the component that has an error?</p>
+
+    <input type="text" placeholder="Component Name" bind:value="componentName" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].componentName ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>More info: <a href="https://developers.google.com/web/tools/chrome-devtools/console/get-started">Console Getting Started</a>.</p>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/browsererror.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        acronym: '',
+        componentName: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, acronym, componentName } = this.get();
+        const done = this.store.get().done;
+
+        if (acronym === 'CORB') {
+          done[id] = {
+            ...done[id],
+            ...{
+              acronym: true
+            }
+          };
+        }
+
+        if (componentName === 'FaultyComponent') {
+          done[id] = {
+            ...done[id],
+            ...{
+              componentName: true
+            }
+          };
+        }
+
+        if (done[id].acronym && done[id].componentName) {
+          done[id].finished = true;
+        }
+
+        if (acronym === 'CORB' || componentName === 'FaultyComponent') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

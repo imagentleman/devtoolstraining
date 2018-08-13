@@ -1,11 +1,19 @@
-<article class="article">
+<article class="article" id={id}>
   <div class="article__content">
     <h1>Console: Open Panel</h1>
 
     <p>
-      With the console panel of devtools you can do two main functions: 
-      1. view diagnostics (e.g. error msgs logged by the developer or by the browser) and 
-      2. run javascript (arbitrary code or related to the page's
+      With the console panel of devtools you can do two main functions:
+    </p>
+
+    <p>
+      1. View diagnostics (e.g. error msgs logged by the developer or by the browser) and
+    </p>
+    <p>
+      2. Run javascript (arbitrary code or related to the page's.
+    </p>
+
+    <p>
       <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM</a>.
     </p>
 
@@ -31,7 +39,9 @@
         if (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) {
           const done = this.store.get().done;
 
-          done[id] = true;
+          done[id] = {
+            finished: true
+          };
 
           this.store.set({
             done
