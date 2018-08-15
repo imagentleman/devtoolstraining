@@ -5,8 +5,10 @@
 <Nav articles={articles}/>
 
 <main class="content">
-	<ConsoleOpenPanel id="consoleopenpanel"/>
-	<ConsoleBrowserError id="consolebrowsererror"/>
+	<ConsoleOpenPanel id="consoleopenpanel" />
+	<ConsoleBrowserError id="consolebrowsererror" />
+	<ConsoleSettings id="consolesettings" />
+	<ConsoleAPI id="consoleapi" />
 </main>
 
 <script>
@@ -17,6 +19,8 @@
 			Nav: '../components/Nav.html',
 			ConsoleOpenPanel: '../components/console/OpenPanel.html',
 			ConsoleBrowserError: '../components/console/BrowserError.html',
+			ConsoleSettings: '../components/console/Settings.html',
+			ConsoleAPI: '../components/console/Api.html',
 		},
 
 		preload({ params, query }) {

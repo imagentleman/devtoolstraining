@@ -2,7 +2,10 @@
 	<div class="nav">
 		{#each articles as article, index}
 		<a 
-			class="nav__link {$done[article.id] && $done[article.id].finished ? 'nav__link--done' : ''} {$activeLink === index ? 'nav__link--active' : ''}" 
+			class="nav__link 
+			{$done[article.id] && $done[article.id].finished ? 'nav__link--done' : ''} 
+			{$activeLink === index ? 'nav__link--active' : ''}
+			{article.exercise === false ? 'nav__link--no-bullet' : ''}" 
 			href="#{article.id}"
 			on:click="setActive(index)">
 			<span class="nav__link-ordinal">{padNumber(index + 1)}.</span>
@@ -51,6 +54,10 @@
 		opacity: 0.5;
 		transition: transform 0.2s, opacity 0.2s;
 		width: 10px;
+	}
+
+	.nav__link--no-bullet .nav__link-ordinal::before {
+		opacity: 0;
 	}
 
 	.nav__link.nav__link--done .nav__link-ordinal::before {

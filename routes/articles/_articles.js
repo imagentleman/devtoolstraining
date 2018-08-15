@@ -10,5 +10,17 @@ export const articles = [
     id: "consolebrowsererror",
     title: "Console: Browser Error",
     component: "ConsoleBrowserError"
+  },
+  {
+    id: "consolesettings",
+    title: "Console: Settings",
+    component: "ConsoleSettings",
+    exercise: false
+  },
+  {
+    id: "consoleapi",
+    title: "Console: API",
+    component: "ConsoleAPI",
+    exercise: false
   }
 ];
