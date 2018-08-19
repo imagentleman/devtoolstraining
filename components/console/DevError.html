@@ -1,0 +1,70 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Dev Errors</h1>
+
+    <p>
+      A Dev can leave more explicit logging messages that can be read on the Console when specific errors happen.
+    </p>
+
+    <p>Open this <a href="/examples/console/dev-error" target="_blank">page</a>.</p>
+
+    <p>The page is making the same AJAX call to the same 3rd party API from the previous example, but is now using the production
+      URL of the API.</p>
+
+    <p>The page used to work, but now it doesn't. And our code has not changed recently.</p>
+
+    <p>What changed on the API?</p>
+
+    <input type="text" placeholder="What changed?" bind:value="property" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].property ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>More info: <a href="https://developers.google.com/web/tools/chrome-devtools/console/get-started">Console Getting Started</a>.</p>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/deverror.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        property: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, property } = this.get();
+        const done = this.store.get().done;
+
+        if (property.includes('names')) {
+          done[id] = {
+            ...done[id],
+            ...{
+              property: true
+            }
+          };
+        }
+
+        if (done[id].property) {
+          done[id].finished = true;
+        }
+
+        if (property.includes('names')) {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

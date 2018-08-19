@@ -1,7 +1,7 @@
 <script>
   export default {
     oncreate() {
-      fetch(`examples/console/people.json`).then(r => r.json()).then(people => {
+      fetch(`examples/console/people-test.json`).then(r => r.json()).then(people => {
         console.log('Using console.log:');
         console.log(people);
         console.log('Using console.table:');

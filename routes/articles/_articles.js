@@ -22,5 +22,10 @@ export const articles = [
     title: "Console: API",
     component: "ConsoleAPI",
     exercise: false
+  },
+  {
+    id: "consoledeverror",
+    title: "Console: Dev Error",
+    component: "ConsoleDevError"
   }
 ];

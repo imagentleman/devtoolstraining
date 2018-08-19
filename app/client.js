@@ -14,7 +14,7 @@ init({
 			['done', 'articles'],
 			(done, articles) => {
 				const doneKeys = Object.keys(done);
-				const articlesLength = articles ? articles.length : 1;
+				const articlesLength = articles ? articles.filter(article => article.exercise !== false).length : 1;
 				let finished = 0;
 
 				if (done && doneKeys.length) {
