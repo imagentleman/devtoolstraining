@@ -7,6 +7,24 @@ init({
 	manifest,
 	store: data => {
 		// `data` is whatever was in the server-side store
-		return new Store(data);
+		const store = new Store(data);
+
+		store.compute(
+			'score',
+			['done', 'articles'],
+			(done, articles) => {
+				const doneKeys = Object.keys(done);
+				const articlesLength = articles ? articles.length : 1;
+				let finished = 0;
+
+				if (done && doneKeys.length) {
+					finished = doneKeys.filter(doneKey => done[doneKey].finished).length;
+				}
+
+				return parseInt(finished / articlesLength * 100);
+			}
+		);
+
+		return store;
 	}
 });

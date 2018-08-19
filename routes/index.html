@@ -2,7 +2,8 @@
 	<title>Devtools Training</title>
 </svelte:head>
 
-<Nav articles={articles}/>
+<Score/>
+<Nav/>
 
 <main class="content">
 	<ConsoleOpenPanel id="consoleopenpanel" />
@@ -16,6 +17,7 @@
 
 	export default {
 		components: {
+			Score: '../components/Score.html',
 			Nav: '../components/Nav.html',
 			ConsoleOpenPanel: '../components/console/OpenPanel.html',
 			ConsoleBrowserError: '../components/console/BrowserError.html',
@@ -32,12 +34,18 @@
 		oncreate() {
 			const _this = this;
 
+			const articles = this.get().articles;
+
 			localForage.getItem('done', function (err, value) {
 				if (value) {
 					_this.store.set({
 						done: value
 					});
 				}
+			});
+
+			this.store.set({
+				articles
 			});
 		}
 	};
