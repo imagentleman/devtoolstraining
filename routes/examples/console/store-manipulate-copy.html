@@ -1,0 +1,32 @@
+<h1>People's names</h1>
+{#each people as person}
+<div class="fullname">{person.fullname}</div>
+{/each}
+
+<script>
+  export default {
+    data() {
+      return {
+        people: []
+      }
+    },
+
+    oncreate() {
+      fetch(`examples/console/people.json`).then(r => r.json()).then(people => {
+        try {
+          people.forEach((person) => {
+            person.fullname = person.name.first + " " + person.name.last
+          });
+        } catch (e) {
+          console.error('Oops, something wrong happened when we tried to format the full name', e);
+        }
+
+        this.set({
+          people
+        });
+
+      });
+
+    }
+  }
+</script>

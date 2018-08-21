@@ -1,0 +1,69 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Stack Traces</h1>
+
+    <p>
+      Stack Traces show us the chain of events that led to an error happening.
+    </p>
+
+    <p>
+      Open <a href="/examples/console/stack-traces">this page.</a>
+    </p>
+    <p>
+      On the console you'll see 5 functions that were called until an error stopped the JS execution. Click on each one starting
+      from the bottom to know what happened.
+    </p>
+
+    <p>What's the name of the 3rd function called?</p>
+
+    <input type="text" placeholder="function name" bind:value="functionName" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].functionName ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/stacktraces.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        functionName: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, functionName } = this.get();
+        const done = this.store.get().done;
+
+        if (functionName === 'addFullname') {
+          done[id] = {
+            ...done[id],
+            ...{
+              functionName: true
+            }
+          };
+        }
+
+        if (done[id].functionName) {
+          done[id].finished = true;
+        }
+
+        if (functionName === 'addFullname') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

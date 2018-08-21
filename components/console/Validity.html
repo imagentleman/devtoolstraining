@@ -1,0 +1,70 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: checkvalidity()</h1>
+
+    <p>
+      As mentioned before, in the console you have the full power of Javascript available to you. You don't need access to the
+      Front End repository and source code to execute some advanced Javascript.
+    </p>
+
+    <p>Open <a href="/examples/console/form" target="_blank">this page</a>, select each form element in the Elements panel
+      and execute the following after each selection (as shown in the video).</p>
+
+    <p>$0.checkvalidity()</p>
+
+    <p>What is the max age constraint on the form?</p>
+
+    <input type="text" placeholder="max age" bind:value="maxAge" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].maxAge ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>More info: <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/checkValidity">checkvalidity()
+        Reference</a>.</p>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/validity.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        maxAge: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, maxAge } = this.get();
+        const done = this.store.get().done;
+
+        if (maxAge === '100') {
+          done[id] = {
+            ...done[id],
+            ...{
+              maxAge: true
+            }
+          };
+        }
+
+        if (done[id].maxAge) {
+          done[id].finished = true;
+        }
+
+        if (maxAge === '100') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

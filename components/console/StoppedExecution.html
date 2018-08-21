@@ -1,0 +1,81 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Stopped Execution</h1>
+
+    <p>
+      Let's open <a href="/examples/console/stopped-execution" target="_blank">this page.</a>
+    </p>
+
+    <p>The page is made out of two components. The top one made by "Miguel" which shows the first names, last names and full
+      names of the users. And a bottom one which shows the ages made by "José".</p>
+
+    <p>Visually, it looks like there is something wrong with the bottom component. Instead of the birth year we are getting
+      undefined multiple times.</p>
+
+    <p>
+      Let's look in the console and see what's happening.
+    </p>
+    <p>
+      1. The first component prints the first and last names. Then it adds the full names to each person and tries to display those.
+    </p>
+    <p>
+      2. But, there is an error when it tries to add the full name. Javascript stops the execution of everything after an error,
+      unless explictly told not to do that (which isn't the case 99% of the time).
+    </p>
+    <p>
+      3. The bottom component never gets to the point of calculating the birth year which was the final step of the page's execution.
+    </p>
+
+    <p>Who should you assign the BUG to?</p>
+
+    <input type="text" placeholder="who to blame" bind:value="blame" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].blame ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/stoppedexecution.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        blame: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, blame } = this.get();
+        const done = this.store.get().done;
+
+        if (blame === 'miguel' || blame === 'Miguel') {
+          done[id] = {
+            ...done[id],
+            ...{
+              blame: true
+            }
+          };
+        }
+
+        if (done[id].blame) {
+          done[id].finished = true;
+        }
+
+        if (blame === 'miguel' || blame === 'Miguel') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

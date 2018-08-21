@@ -18,15 +18,13 @@
             person.fullname = person.names.first + " " + person.names.last
           });
         } catch (e) {
-          console.error('Oops, something wrong happened when we tried to format the full name', e);
+          console.error('Oops, something wrong happened when we processed the names', e);
         }
 
         this.set({
           people
         });
-
       });
-
     }
   }
 </script>

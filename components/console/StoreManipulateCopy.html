@@ -1,0 +1,104 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Store, Manipulate and Copy</h1>
+
+    <p>
+      Almost everything that looks like javascript data can be stored as a variable on the console, for further manipulation and
+      inspection.
+    </p>
+
+    <p>
+      1. From the Network Panel: On AJAX responses that are displayed on the Network Panel, you can go to the Preview section,
+      right click the request and select "Store as global variable".
+    </p>
+    <p>
+      2. From the Console Log: Right click any Objects or Arrays or JSON data and select "Store as global variable".
+    </p>
+    <p>
+      In both cases a new console message will appear displaying the name of the variable where the data was stored.
+    </p>
+
+    <p>Since the data is now stored in a variable, it's no longer just a message on the console. It's a javascript object
+      that you can manipulate it and play around with.</p>
+
+    <p>Open this <a href="/examples/console/store-manipulate-copy">page</a>.</p>
+
+    <p>1. On the console settings active AJAX logging.</p>
+    <p>2. Then refresh the page. You'll see 8 AJAX calls, click on the people.json request (the url).</p>
+    <p>3. That will redirect you to its details on the Network Panel (more on that later). Click on people.json and then
+      on the Preview tab. That will show you the entire response which you can expand to see its details.</p>
+    <p>4. Right click on (7 array of people) and select "Store as global variable". These 4 previous steps can be used to
+      inspect AJAX results in detail.
+    </p>
+
+    <p>Right now, the AJAX response should be stored on a variable named temp1. Try this on the console</p>
+
+    <p>temp1.filter(person => person.isActive)</p>
+
+    <p>That should filter the 7 people and only show those who are active. Now try this:</p>
+
+    <p>temp1.map(person => person.age)</p>
+
+    <p>That should've printed only the ages of the 7 people as a table.</p>
+
+    <p>Finally, try this to copy the entire content of a the variable to the clipboard:</p>
+
+    <p>copy(temp1)</p>
+
+    <p>How would you print in a table only the ages of people that are active (hint: you can do things like filter().map())?</p>
+
+    <input type="text" placeholder="command" bind:value="command" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].command ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>More info: <a href="https://developers.google.com/web/tools/chrome-devtools/console/command-line-reference">Command-Line
+        Reference
+      </a>.</p>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/storemanipulatecopy.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        command: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, command } = this.get();
+        const done = this.store.get().done;
+
+        if (command === 'console.table(temp1.filter(person => person.isActive).map(person => person.age))') {
+          done[id] = {
+            ...done[id],
+            ...{
+              command: true
+            }
+          };
+        }
+
+        if (done[id].command) {
+          done[id].finished = true;
+        }
+
+        if (command === 'console.table(temp1.filter(person => person.isActive).map(person => person.age))') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

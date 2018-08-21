@@ -1,0 +1,56 @@
+<form action="">
+  <label>
+    Name:
+    <input type="text" class="name">
+  </label>
+
+  <label>
+    Age:
+    <input type="number" required on:input="checkResults(event)" bind:value="age">
+  </label>
+
+  <label>
+    Books read in a year:
+    <select>
+      <option value="1">1</option>
+      <option value="5">5+</option>
+      <option value="10">10+</option>
+    </select>
+  </label>
+</form>
+
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    font-family: "Huge", sans-serif;
+    margin: 50px auto;
+    width: 50%;
+  }
+
+  input,
+  select {
+    margin: 20px 0;
+    width: 100%;
+  }
+
+  select {
+    height: 60px;
+  }
+</style>
+
+<script>
+  export default {
+    methods: {
+      checkResults(e) {
+        const { age } = this.get();
+
+        if (age > 100) {
+          e.target.setCustomValidity("The age is too high");
+        } else {
+          e.target.setCustomValidity("");
+        }
+      }
+    }
+  }
+</script>

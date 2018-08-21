@@ -1,0 +1,141 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Querying the DOM ($ and $$)</h1>
+
+    <p>
+      When you load a page the browser receives the HTML string and creates the DOM (Document Object Model), an object representation
+      of the same page that Javascript can use to manipulate the page (add content, change styles, listen to events like
+      clicks, etc).
+    </p>
+
+    <p>
+      Using the console we can have quick access to the page's DOM and do everything a Front End Dev can with Javascript, right
+      in the browser, without the need of setting up anything or have access to the source code.
+    </p>
+
+    <p>The main two things you can do with the DOM are:</p>
+    <p>
+      1. Query/select elements (e.g. all links aka anchor tags, or all paragraphs aka p tags).
+    </p>
+    <p>
+      2. Once with some elements selected you can modify them. All changes to a DOM element are immediately reflected on the actual
+      page.
+    </p>
+
+    <p>
+      Want to change a page dynamically somehow? Use the DOM with Javascript.
+    </p>
+
+    <p>What is the Elements panel of devtools? It's just a visual representation of the DOM.</p>
+
+    <p>
+      Open <a href="/examples/console/querying" target="_blank">this page</a>. Try the following command on the console.
+    </p>
+
+    <p>
+      document.querySelector('.app')
+    </p>
+
+    <p>That DOM API method selects the first tag in the page with the class "app" and prints it in the console (in this case
+      app contains basically the whole page, which is a navigation and some content). Now try:</p>
+
+    <p>
+      document.querySelectorAll('.app p')
+    </p>
+
+    <p>The previous code will select all paragraphs of the app (p tags inside the div with class app). Hover through the
+      results and you'll see the element highlighted in the page, and if you click it, you'll get redirected to it in the
+      Elements panel.</p>
+
+    <p>
+      The devtools provides some useful aliases for document.querySelector and document.querySelectorAll. They are $ and $$. $$('p')
+      should get you the same result as the previous command.
+    </p>
+
+    <p>This kind of Javascript querying can be useful to catch things that are not easily catch visually by inspecting using
+      the Elements panel or to repeatedly inspect the same elements over and over agains after refreshing the page several
+      times.
+    </p>
+
+    <p>How many links with the class "link" are in the page?</p>
+
+    <input type="text" placeholder="how many with link class" bind:value="links" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].links ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>How many links (of any kind) are in the page?</p>
+
+    <input type="text" placeholder="how many links" bind:value="anchors" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].anchors ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>With an element selected you can do all kind of fancy stuff. Everything Javascript provides. For instance, try:</p>
+
+    <p>$('h1').textContent.length</p>
+    <p>$('h1').getBoundingClientRect()</p>
+    <p>$('h1').style.color = 'magenta'</p>
+
+    <p>The first gets you the character count of the heading.</p>
+    <p>The second gets you the exact position of the heading in relation to the viewport.</p>
+
+    <p>More info: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element">API reference of DOM Elements.</a></p>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/querying.m4v" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        links: '',
+        anchors: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, links, anchors } = this.get();
+        const done = this.store.get().done;
+
+        if (links === '4') {
+          done[id] = {
+            ...done[id],
+            ...{
+              links: true
+            }
+          };
+        }
+
+        if (anchors === '5') {
+          done[id] = {
+            ...done[id],
+            ...{
+              anchors: true
+            }
+          };
+        }
+
+        if (done[id].links && done[id].anchors) {
+          done[id].finished = true;
+        }
+
+        if (links === '4' || anchors === '5') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>
