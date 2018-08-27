@@ -37,7 +37,7 @@
   </div>
 
   <div class="article__media">
-    <video src="/videos/console/browsererror.m4v" loop controls muted></video>
+    <video src="/videos/console/browsererror.m4v" preload="none" loop controls muted></video>
   </div>
 </article>
 
@@ -75,7 +75,7 @@
           };
         }
 
-        if (done[id].acronym && done[id].componentName) {
+        if (done[id] && done[id].acronym && done[id].componentName) {
           done[id].finished = true;
         }
 

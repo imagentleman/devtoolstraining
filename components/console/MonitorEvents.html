@@ -1,0 +1,108 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Monitor Events</h1>
+
+    <p>
+      Sometimes, you know there is a defect related to an specific element (e.g. a button), but don't know what's exactly causing
+      it.
+    </p>
+
+    <p>Using Monitor Events you can get log specific events or all events that happen to an element.</p>
+
+    <p>Type the following:</p>
+
+    <p>monitorEvents(document.body)</p>
+
+    <p>That will log in the console every single event/interaction on the whole page.</p>
+
+    <p>To monitor the events of an element just type monitorEvents() with the element in the between the parenthesis:</p>
+
+    <p>An easy way to do that is to inspect an element you want to monitor, that will save a reference to it in $0 and then
+      type monitorEvents($0).</p>
+
+    <p>Open <a href="/examples/console/monitor-events" target="_blank">this page</a>. Click the first button, it should be
+      toggle the visibility of an element.</p>
+
+    <p>Click the second in the magenta part. Tt should do the same. Now do it in the white part with the text. It shouldn't
+      work. Monitor that second button click events on the magent part and then in the white part. You can do that by adding 'click' as the second param of monitorEvents:</p>
+
+    <p>monitorEvents($0, 'click')</p>
+
+    <p>On the object logged in the console, look for the target value in both cases.</p>
+
+    <p>What tag is logged as the target in the white part?</p>
+
+    <input type="text" placeholder="tag" bind:value="tag" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].tag ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>What tag is logged as the target in the magenta part?</p>
+
+    <input type="text" placeholder="tag" bind:value="tag2" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].tag2 ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>What do you think is the problem?</p>
+
+    <p>More info: <a href="https://developers.google.com/web/tools/chrome-devtools/console/events">Monitor Events reference
+      </a>.</p>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/monitorevents.m4v" preload="none" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        tag: '',
+        tag2: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, tag, tag2 } = this.get();
+        const done = this.store.get().done;
+
+        if (tag === 'span') {
+          done[id] = {
+            ...done[id],
+            ...{
+              tag: true
+            }
+          };
+        }
+
+        if (tag2 === 'button') {
+          done[id] = {
+            ...done[id],
+            ...{
+              tag2: true
+            }
+          };
+        }
+
+        if (done[id] && done[id].tag && done[id].tag2) {
+          done[id].finished = true;
+        }
+
+        if (tag === 'span' || tag2 === 'button') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>

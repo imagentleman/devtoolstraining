@@ -64,5 +64,15 @@ export const articles = [
     id: "consolevalidity",
     title: "Console: checkvalidity()",
     component: "ConsoleValidity"
+  },
+  {
+    id: "consoleactiveelement",
+    title: "Console: Active Element",
+    component: "ConsoleActiveElement"
+  },
+  {
+    id: "consolemonitorevents",
+    title: "Console: Monitor Events",
+    component: "ConsoleMonitorEvents"
   }
 ];

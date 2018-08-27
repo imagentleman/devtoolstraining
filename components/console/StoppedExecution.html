@@ -36,7 +36,7 @@
   </div>
 
   <div class="article__media">
-    <video src="/videos/console/stoppedexecution.m4v" loop controls muted></video>
+    <video src="/videos/console/stoppedexecution.m4v" preload="none" loop controls muted></video>
   </div>
 </article>
 
@@ -55,6 +55,8 @@
         const { id, blame } = this.get();
         const done = this.store.get().done;
 
+        console.log(done)
+
         if (blame === 'miguel' || blame === 'Miguel') {
           done[id] = {
             ...done[id],
@@ -64,7 +66,7 @@
           };
         }
 
-        if (done[id].blame) {
+        if (done[id] && done[id].blame) {
           done[id].finished = true;
         }
 

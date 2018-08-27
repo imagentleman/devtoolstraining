@@ -18,6 +18,8 @@
 	<ConsoleQuerying id="consolequerying" />
 	<ConsoleLastFive id="consolelastfive" />
 	<ConsoleValidity id="consolevalidity" />
+	<ConsoleActiveElement id="consoleactiveelement" />
+	<ConsoleMonitorEvents id="consolemonitorevents" />
 </main>
 
 <script>
@@ -39,18 +41,22 @@
 			ConsoleQuerying: '../components/console/Querying.html',
 			ConsoleLastFive: '../components/console/LastFive.html',
 			ConsoleValidity: '../components/console/Validity.html',
+			ConsoleActiveElement: '../components/console/ActiveElement.html',
+			ConsoleMonitorEvents: '../components/console/MonitorEvents.html',
 		},
 
 		preload({ params, query }) {
 			return this.fetch(`/articles.json`).then(r => r.json()).then(articles => {
+				this.store.set({
+					articles
+				});
+
 				return { articles };
 			});
 		},
 
 		oncreate() {
 			const _this = this;
-
-			const articles = this.get().articles;
 
 			localForage.getItem('done', function (err, value) {
 				if (value) {
@@ -60,9 +66,22 @@
 				}
 			});
 
-			this.store.set({
-				articles
-			});
+			const lazyVideos = [].slice.call(document.querySelectorAll("video"));
+
+			if ("IntersectionObserver" in window) {
+				const lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
+					entries.forEach(function (video) {
+						if (video.isIntersecting) {
+							video.target.play();
+							lazyVideoObserver.unobserve(video.target);
+						}
+					});
+				});
+
+				lazyVideos.forEach(function (lazyVideo) {
+					lazyVideoObserver.observe(lazyVideo);
+				});
+			}
 		}
 	};
 </script>

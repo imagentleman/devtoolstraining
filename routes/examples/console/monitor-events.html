@@ -1,0 +1,37 @@
+<button on:click="toggle()">toggle text</button>
+<button class="button2" on:click="toggle()"><span on:click="toggle()">toggle text 2</span></button>
+
+{#if showText}
+<p>Hail Hydra!</p>
+{/if}
+
+<style>
+  .button2 {
+    background-color: magenta;
+    padding: 20px;
+  }
+
+  .button2 span {
+    background-color: white;
+  }
+</style>
+
+<script>
+	export default {
+		data() {
+			return {
+				showText: false
+			}
+		},
+
+		methods: {
+			toggle() {
+        const { showText } = this.get();
+
+				this.set({
+          showText: !showText
+        });
+			}
+    }
+	};
+</script>

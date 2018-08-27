@@ -25,7 +25,7 @@
   </div>
 
   <div class="article__media">
-    <video src="/videos/console/deverror.m4v" loop controls muted></video>
+    <video src="/videos/console/deverror.m4v" preload="none" loop controls muted></video>
   </div>
 </article>
 
@@ -53,7 +53,7 @@
           };
         }
 
-        if (done[id].property) {
+        if (done[id] && done[id].property) {
           done[id].finished = true;
         }
 

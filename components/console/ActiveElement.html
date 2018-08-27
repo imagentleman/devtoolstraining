@@ -1,0 +1,82 @@
+<article class="article" id={id}>
+  <div class="article__content">
+    <h1>Console: Active Element</h1>
+
+    <p>
+      When doing accessibility test on a page, a common problem is to get into a focus trap. You start to navigate the page with
+      tabs and at some point the focus is lost or on something invisible.
+    </p>
+
+    <p>An useful tool for that is document.activeElement. That property on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document">document</a>
+      Javascript object always returns the currently active element. We can use that to print it in the console in case it is visually
+      difficult to find.</p>
+
+    <p>Inspect this very page hit tab once and run on the console:</p>
+
+    <p>document.activeElement</p>
+
+    <p>Then right click the result on the console and select "Reveal in Elements panel" to see exactly which HTML element
+      has the focus.</p>
+
+    <p>Open <a href="http://a11yfocus.glitch.me/" target="_blank">this page</a>, start tabbing and set the focus on the cta
+      that says "I'm a button". Then hit tab again.</p>
+
+    <p>Where is the focus? Use document.activeElement to find out.</p>
+
+    <p>What's the id of the invisible element that traps the focus?</p>
+
+    <input type="text" placeholder="active element" bind:value="activeElement" on:input="checkResults()">
+    <svg class="checkmark {$done[id] && $done[id].activeElement ? 'checkmark--visible': ''}" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
+
+    <p>More info: <a href="https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement">document.activeElement
+        MDN reference
+      </a>.</p>
+  </div>
+
+  <div class="article__media">
+    <video src="/videos/console/activeelement.m4v" preload="none" loop controls muted></video>
+  </div>
+</article>
+
+<script>
+  import localForage from "localforage";
+
+  export default {
+    data() {
+      return {
+        activeElement: ''
+      }
+    },
+
+    methods: {
+      checkResults() {
+        const { id, activeElement } = this.get();
+        const done = this.store.get().done;
+
+        if (activeElement === 'hidden') {
+          done[id] = {
+            ...done[id],
+            ...{
+              activeElement: true
+            }
+          };
+        }
+
+        if (done[id].activeElement) {
+          done[id].finished = true;
+        }
+
+        if (activeElement === 'hidden') {
+          this.store.set({
+            done
+          });
+
+          localForage.setItem('done', done);
+        }
+      }
+    }
+  }
+</script>
