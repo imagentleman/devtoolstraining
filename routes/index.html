@@ -72,7 +72,8 @@
 				const lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
 					entries.forEach(function (video) {
 						if (video.isIntersecting) {
-							video.target.play();
+							video.target.autoplay = true;
+							video.target.load();
 							lazyVideoObserver.unobserve(video.target);
 						}
 					});
