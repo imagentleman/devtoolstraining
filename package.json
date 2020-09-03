@@ -15,7 +15,7 @@
     "compression": "^1.7.1",
     "localforage": "^1.7.2",
     "polka": "^0.4.0",
-    "sapper": "^0.15.0",
+    "sapper": "^0.27.11",
     "sirv": "^0.1.1"
   },
   "devDependencies": {
